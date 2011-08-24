@@ -1,0 +1,71 @@
+{
+    "stickers": {
+        "categorias": {
+            "categoria": [
+                {
+                    "name": "webs",
+                    "imagen": [
+                        {
+                            "name": "facebook",
+                            "url": "http://icongal.com/gallery/image/66031/sticker_facebook.png"
+                        },
+                        {
+                            "name": "twitter",
+                            "url": "http://icongal.com/gallery/image/66033/sticker_twitter.png"
+                        },
+                        {
+                            "name": "flickr",
+                            "url": "http://icongal.com/gallery/image/66035/sticker_flickr.png"
+                        },
+                        {
+                            "name": "yahoo",
+                            "url": "http://icongal.com/gallery/image/66036/yahoo_sticker.png"
+                        },
+                        {
+                            "name": "delicious",
+                            "url": "http://icongal.com/gallery/image/66037/delicious_sticker.png"
+                        }
+                    ]
+                },
+                {
+                    "name": "navidad",
+                    "imagen": [
+                        {
+                            "name": "regalo",
+                            "url": "http://icongal.com/gallery/image/66496/present_sticker_xmas_gift_christmas.png"
+                        },
+                        {
+                            "name": "arbol",
+                            "url": "http://icongal.com/gallery/image/66502/sticker_xmas_01.png"
+                        },
+                        {
+                            "name": "galleta",
+                            "url": "http://icongal.com/gallery/image/66523/xmas_02_sticker.png"
+                        }
+                    ]
+                },
+                {
+                    "name": "programas",
+                    "imagen": [
+                        {
+                            "name": "safari",
+                            "url": "http://icongal.com/gallery/image/144062/browser_north_east_safari_apple_compass_ne_brower.png"
+                        },
+                        {
+                            "name": "google chrome",
+                            "url": "http://icongal.com/gallery/image/144064/google_chrome_logo_browser.png"
+                        },
+                        {
+                            "name": "firefox",
+                            "url": "http://icongal.com/gallery/image/144067/mozilla_firefox.png"
+                        },
+                        {
+                            "name": "opera",
+                            "url": "http://icongal.com/gallery/image/144068/browser_opera.png"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
