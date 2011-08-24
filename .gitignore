@@ -1,2 +1,5 @@
-.swf
-.html
+*.swf
+*.html
+*.old
+*.xml
+*.js
