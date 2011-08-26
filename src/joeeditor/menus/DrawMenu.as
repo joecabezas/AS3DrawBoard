@@ -1,4 +1,4 @@
-package menus
+package joeeditor.menus
 {
 	import com.bit101.components.ColorChooser;
 	import com.bit101.components.HBox;

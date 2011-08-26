@@ -1,4 +1,4 @@
-package menus 
+package joeeditor.menus 
 {
 	import flash.display.Sprite;
 	import flash.events.Event;

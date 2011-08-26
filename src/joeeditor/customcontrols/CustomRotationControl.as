@@ -1,4 +1,5 @@
-package customcontrols{
+package joeeditor.customcontrols
+{
 	
 	import flash.events.Event;
 	import flash.geom.Matrix;
@@ -8,18 +9,21 @@ package customcontrols{
 	import com.senocular.display.TransformToolControl;
 	import com.senocular.display.TransformToolCursor;
 	
-	public class CustomRotationControl extends TransformToolControl {
+	public class CustomRotationControl extends TransformToolControl
+	{
 		
 		private var length:Number = 20;
 		private var circle:Circle;
 		
-		public function CustomRotationControl() {
+		public function CustomRotationControl()
+		{
 			addEventListener(TransformTool.CONTROL_INIT, init, false, 0, true);
 			circle = new Circle(10);
 			addChild(circle);
 		}
 		
-		private function init(event:Event):void {
+		private function init(event:Event):void
+		{
 			
 			// add event listeners 
 			transformTool.addEventListener(TransformTool.NEW_TARGET, update, false, 0, true);
@@ -36,8 +40,10 @@ package customcontrols{
 			update();
 		}
 		
-		private function update(event:Event = null):void {
-			if (transformTool.target) {
+		private function update(event:Event = null):void
+		{
+			if (transformTool.target)
+			{
 				
 				// move circle to point
 				var top:Point = transformTool.boundsTop;
@@ -49,24 +55,28 @@ package customcontrols{
 				
 				// draw connecting line
 				graphics.clear();
-				graphics.lineStyle(0,0);
+				graphics.lineStyle(0, 0);
 				// draw from top of top ScaleCircle
-				var offset:Number = circle.height/2;
+				var offset:Number = circle.height / 2;
 				graphics.moveTo(top.x + offset * Math.cos(angle), top.y + offset * Math.sin(angle));
 				graphics.lineTo(circle.x, circle.y);
 			}
 		}
 		
-		private function controlMouseDown(event:Event):void {
-			if (transformTool.currentControl == this) {
+		private function controlMouseDown(event:Event):void
+		{
+			if (transformTool.currentControl == this)
+			{
 				// if this tool is being clicked, set
 				// the reference point to be the mouse location
 				_referencePoint = transformTool.mouse;
 			}
 		}
 		
-		private function controlMove(event:Event):void {
-			if (transformTool.currentControl == this) {
+		private function controlMove(event:Event):void
+		{
+			if (transformTool.currentControl == this)
+			{
 				// use default tool rotation if this tool is being used
 				transformTool.rotationInteraction();
 			}

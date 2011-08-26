@@ -1,4 +1,4 @@
-package 
+package joeeditor
 {
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
@@ -13,42 +13,43 @@ package
 	 * ...
 	 * @author Joe Cabezas
 	 */
-	public class Preloader extends MovieClip 
+	public class Preloader extends MovieClip
 	{
 		
-		public function Preloader() 
+		public function Preloader()
 		{
-			if (stage) {
+			if (stage)
+			{
 				stage.scaleMode = StageScaleMode.NO_SCALE;
 				stage.align = StageAlign.TOP_LEFT;
 			}
 			addEventListener(Event.ENTER_FRAME, checkFrame);
 			loaderInfo.addEventListener(ProgressEvent.PROGRESS, progress);
 			loaderInfo.addEventListener(IOErrorEvent.IO_ERROR, ioError);
-			
+		
 			// TODO show loader
 		}
 		
-		private function ioError(e:IOErrorEvent):void 
+		private function ioError(e:IOErrorEvent):void
 		{
 			trace(e.text);
 		}
 		
-		private function progress(e:ProgressEvent):void 
+		private function progress(e:ProgressEvent):void
 		{
 			// TODO update loader
 		}
 		
-		private function checkFrame(e:Event):void 
+		private function checkFrame(e:Event):void
 		{
-			if (currentFrame == totalFrames) 
+			if (currentFrame == totalFrames)
 			{
 				stop();
 				loadingFinished();
 			}
 		}
 		
-		private function loadingFinished():void 
+		private function loadingFinished():void
 		{
 			removeEventListener(Event.ENTER_FRAME, checkFrame);
 			loaderInfo.removeEventListener(ProgressEvent.PROGRESS, progress);
@@ -59,12 +60,12 @@ package
 			startup();
 		}
 		
-		private function startup():void 
+		private function startup():void
 		{
-			var mainClass:Class = getDefinitionByName("Main") as Class;
+			var mainClass:Class = getDefinitionByName("joeeditor.JoeEditor") as Class;
 			addChild(new mainClass() as DisplayObject);
 		}
-		
-	}
 	
+	}
+
 }

@@ -1,4 +1,4 @@
-package customcontrols{
+package joeeditor.customcontrols{
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;

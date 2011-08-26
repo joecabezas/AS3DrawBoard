@@ -1,4 +1,4 @@
-package board
+package joeeditor.board
 {
 	import com.greensock.loading.ImageLoader;
 	import flash.display.DisplayObject;
@@ -19,13 +19,19 @@ package board
 		private var loader:ImageLoader;
 		private var img:DisplayObject;
 		
+		//tamaños deseados si es que el board item debe ser cargado desde una url
+		private var width_desired:Number;
+		private var height_desired:Number;
+		
 		public function BoardItem()
 		{
 		}
 		
-		public function generateFromUrl(url:String):void
+		public function generateFromUrl(url:String, w:Number=0, h:Number=0):void
 		{
 			this.url = url;
+			this.width_desired = w;
+			this.height_desired = h;
 			
 			this.setup();
 			this.load();
@@ -34,8 +40,12 @@ package board
 		}
 		
 		public function generateFromDisplayObject(d:DisplayObject):void
-		{
-			trace(d.width);
+		{			
+			//si recibimos un objeto que no se ve
+			//osea de tamaño cero (dibujo vacio por ejemplo)
+			if ((d.width <= 0) && (d.height <= 0))
+				return;
+	
 			this.img = d;
 			
 			this.img.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
@@ -45,7 +55,10 @@ package board
 		
 		private function setup():void
 		{
-			this.loader = new ImageLoader(this.url, {centerRegistration: true});
+			trace('BoardItem.setup');
+			trace(this.width_desired);
+			trace(this.height_desired);
+			this.loader = new ImageLoader(this.url, {centerRegistration: true, width:this.width_desired, height:this.height_desired});
 			this.img = this.loader.content;
 		}
 		

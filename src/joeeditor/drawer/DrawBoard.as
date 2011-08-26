@@ -1,4 +1,4 @@
-package drawer
+package joeeditor.drawer
 {
 	import flash.display.Sprite;
 	import flash.display.Stage;

@@ -1,4 +1,4 @@
-package menus
+package joeeditor.menus
 {
 	import com.as3joelib.ui.UISwitcher;
 	import flash.display.Sprite;

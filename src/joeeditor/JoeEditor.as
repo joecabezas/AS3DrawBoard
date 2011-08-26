@@ -1,30 +1,26 @@
-package
+package joeeditor
 {
-	import board.BoardItem;
-	import com.bit101.components.HSlider;
-	import com.senocular.display.TransformTool;
-	import customcontrols.CustomMoveControl;
-	import customcontrols.CustomResetControl;
-	import drawer.DrawBoard;
-	import drawer.DrawBoardEasy;
+	import joeeditor.board.Board;
+	import joeeditor.board.BoardItem;
+	import joeeditor.drawer.DrawBoardEasy;
 	import flash.display.Sprite;
+	import flash.display.Shape;
 	import flash.events.Event;
-	import menus.DrawMenu;
-	import menus.MainMenu;
-	import menus.PrimaryMenu;
-	import menus.StickersMenu;
-	import menus.StickersMenuCategory;
-	import board.Board;
-	import menus.StickersMenuCategoryNode;
+	import joeeditor.menus.DrawMenu;
+	import joeeditor.menus.MainMenu;
+	import joeeditor.menus.PrimaryMenu;
+	import joeeditor.menus.StickersMenuCategoryNode;
 	
 	/**
 	 * ...
 	 * @author Joe Cabezas
 	 */
 	[SWF(backgroundColor='#ffffff',frameRate='30')]
-	[Frame(factoryClass="Preloader")]
 	
-	public class Main extends Sprite
+	//Descomentar esto si esta es la DocumentClass
+	//[Frame(factoryClass="joeeditor.Preloader")]
+	
+	public class JoeEditor extends Sprite
 	{
 		//menus
 		private var main_menu:MainMenu;
@@ -35,7 +31,7 @@ package
 		//drawboard
 		private var draw_board:DrawBoardEasy;
 		
-		public function Main():void
+		public function JoeEditor():void
 		{
 			if (stage)
 				init();
@@ -85,6 +81,12 @@ package
 		
 		private function onInitDraw(e:Event):void
 		{
+			//quitar la herramienta
+			this.main_board.selectNone();
+			
+			//desactivar la herramienta
+			this.main_board.disableTool();
+			
 			trace(e);
 			//iniciar drawboard
 			this.addChild(this.draw_board);
@@ -93,6 +95,12 @@ package
 		
 		private function onInitStickers(e:Event):void
 		{
+			//quitar la herramienta
+			this.main_board.selectNone();
+			
+			//activar la herramienta
+			this.main_board.enableTool();
+			
 			//obtener el dibujo y hacerlo sticker
 			var bi:BoardItem = new BoardItem();
 			bi.generateFromDisplayObject(this.draw_board.getDraw());
@@ -102,43 +110,33 @@ package
 			if (this.contains(this.draw_board) && this.draw_board)
 			{
 				this.draw_board.erase();
+				this.draw_board.endDraw();
+				this.draw_board.endDraw();
 				this.removeChild(this.draw_board);
 			}
 		}
 		
 		private function onClickStickerFromMenu(e:Event):void
 		{
-			trace(e.target);
+			trace('JoeEditor.onClickStickerFromMenu');
+			
+			//habilitar la herramienta del board
+			this.main_board.enableTool();
+			
 			var scn:StickersMenuCategoryNode = e.target as StickersMenuCategoryNode;
-			trace(scn);
+			trace(scn.width);
+			trace(scn.height);
 			
 			var bi:BoardItem = new BoardItem();
-			bi.generateFromUrl(scn.url);
+			bi.generateFromUrl(scn.url, scn.width, scn.height);
 			
-			this.main_board.addItem(bi,true);
+			this.main_board.addItem(bi, true);
 		}
 		
 		private function dibujar():void
 		{
 			this.addChild(this.main_menu);
 			this.addChild(this.main_board);
-		}	
-	}
-
-}
-
-import flash.display.Shape;
-
-internal class Circle extends Shape
-{
-	public function Circle(radius:Number)
-	{
-		graphics.lineStyle(1, 0x5d504f);
-		graphics.beginFill(0xded3d1, .75);
-		graphics.drawCircle(0, 0, radius);
-		graphics.endFill();
-		graphics.lineStyle(1, 0x5d504f);
-		graphics.moveTo(0, 0);
-		graphics.lineTo(0, radius);
+		}
 	}
 }

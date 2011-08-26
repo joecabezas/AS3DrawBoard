@@ -1,4 +1,4 @@
-package drawer
+package joeeditor.drawer
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -23,6 +23,9 @@ package drawer
 	{
 		//are we drawing?
 		private var is_drawing:Boolean;
+		
+		//are we listening for mouse events?
+		private var is_listening:Boolean;
 		
 		//points array
 		private var points:Array;
@@ -59,6 +62,9 @@ package drawer
 			//hey! setup-time!, we are not drawing :)
 			this.is_drawing = false;
 			
+			//also, we are not listening until the user wants to
+			this.is_listening = false;
+			
 			//instantiating the container
 			this.draw_container = new Sprite();
 			
@@ -77,7 +83,13 @@ package drawer
 		
 		public function beginDraw():void
 		{
+			this.is_listening = true;
 			this.draw_container.graphics.lineStyle(this.tickness, this.color);
+		}
+		
+		public function endDraw():void
+		{
+			this.is_listening = false;
 		}
 		
 		private function addListeners():void
@@ -125,6 +137,10 @@ package drawer
 		
 		private function onMouseDown(e:MouseEvent):void
 		{
+			if (!this.is_listening)
+				return;
+			
+			trace('DrawBoardEasy.onMouseDown');
 			//reseting the array
 			this.points = new Array();
 			
@@ -186,11 +202,11 @@ package drawer
 		public function set rect(value:Rectangle):void
 		{
 			_rect = value;
-		
-		/*this.draw_container.graphics.clear();
-		   this.draw_container.graphics.beginFill(0, 0.05);
-		   this.draw_container.graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
-		 this.draw_container.graphics.endFill();*/
+
+			/*this.draw_container.graphics.clear();
+			this.draw_container.graphics.beginFill(0, 0.05);
+			this.draw_container.graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
+			this.draw_container.graphics.endFill();*/
 		
 		}
 		
@@ -215,34 +231,6 @@ package drawer
 			_color = value;
 			this.draw_container.graphics.lineStyle(this.tickness, this.color);
 		}
-		
-		/*private function setRegPoint(obj:DisplayObjectContainer, newX:Number, newY:Number):void
-		   {
-		   //get the bounds of the object and the location
-		   //of the current registration point in relation
-		   //to the upper left corner of the graphical content
-		   //note: this is a PSEUDO currentRegX and currentRegY, as the
-		   //registration point of a display object is ALWAYS (0, 0):
-		   var bounds:Rectangle = obj.getBounds(obj.parent);
-		   var currentRegX:Number = obj.x - bounds.left;
-		   var currentRegY:Number = obj.y - bounds.top;
-		
-		   var xOffset:Number = newX - currentRegX;
-		   var yOffset:Number = newY - currentRegY;
-		   //shift the object to its new location--
-		   //this will put it back in the same position
-		   //where it started (that is, VISUALLY anyway):
-		   obj.x += xOffset;
-		   obj.y += yOffset;
-		
-		   //shift all the children the same amount,
-		   //but in the opposite direction
-		   for (var i:int = 0; i < obj.numChildren; i++)
-		   {
-		   obj.getChildAt(i).x -= xOffset;
-		   obj.getChildAt(i).y -= yOffset;
-		   }
-		 }*/
 
 		public function getDraw():DisplayObject
 		{			
