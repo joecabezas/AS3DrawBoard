@@ -17,6 +17,12 @@
   <classpaths>
     <class path="src" />
     <class path="lib" />
+    <class path="..\libs\transformtool" />
+    <class path="..\libs\swc" />
+    <class path="..\libs\minimalcomps\src" />
+    <class path="..\libs\coordy-0.9.9\swc" />
+    <class path="..\libs\as3joelib" />
+    <class path="..\libs\as3corelib\src" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -54,6 +60,9 @@
     <element path="lib\greensock.swc" />
     <element path="lib\coordy.swc" />
     <element path="lib\DropDown.swc" />
+    <element path="..\libs\swc\greensock.swc" />
+    <element path="..\libs\swc\DropDown.swc" />
+    <element path="..\libs\coordy-0.9.9\swc\coordy.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

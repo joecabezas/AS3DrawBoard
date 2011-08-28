@@ -68,14 +68,16 @@ package com.as3joelib.joeeditor.board
 			
 			//this.tool.skewEnabled = false;
 			
-			/*this.tool.setSkin(TransformTool.SCALE_TOP_LEFT, new Circle(5));
-			   this.tool.setSkin(TransformTool.SCALE_TOP_RIGHT, new Circle(5));
-			   this.tool.setSkin(TransformTool.SCALE_BOTTOM_RIGHT, new Circle(5));
-			   this.tool.setSkin(TransformTool.SCALE_BOTTOM_LEFT, new Circle(5));
-			   this.tool.setSkin(TransformTool.SCALE_TOP, new Circle(5));
-			   this.tool.setSkin(TransformTool.SCALE_RIGHT, new Circle(5));
-			   this.tool.setSkin(TransformTool.SCALE_BOTTOM, new Circle(5));
-			 this.tool.setSkin(TransformTool.SCALE_LEFT, new Circle(5));*/
+			/*
+			this.tool.setSkin(TransformTool.SCALE_TOP_LEFT, new Circle(5));
+			this.tool.setSkin(TransformTool.SCALE_TOP_RIGHT, new Circle(5));
+			this.tool.setSkin(TransformTool.SCALE_BOTTOM_RIGHT, new Circle(5));
+			this.tool.setSkin(TransformTool.SCALE_BOTTOM_LEFT, new Circle(5));
+			this.tool.setSkin(TransformTool.SCALE_TOP, new Circle(5));
+			this.tool.setSkin(TransformTool.SCALE_RIGHT, new Circle(5));
+			this.tool.setSkin(TransformTool.SCALE_BOTTOM, new Circle(5));
+			this.tool.setSkin(TransformTool.SCALE_LEFT, new Circle(5));
+			*/
 			
 			//this.tool.addControl(new CustomRotationControl());
 			this.tool.addControl(new CustomResetControl());
@@ -118,9 +120,10 @@ package com.as3joelib.joeeditor.board
 		
 		private function agregarListeners():void
 		{
-			//atento a cuando hagan click en ningun sticker
+			//atento a cuando hagan click en NINGUN sticker del board
 			this.stage.addEventListener(MouseEvent.CLICK, onClick);
 			
+			//atento a cuando hagan click en algun sticker del board
 			this.addEventListener(BoardItem.MOUSE_DOWN_BOARD_ITEM, onClickBoardItem);
 			
 			//atento a cuando quieran remover un sticker
@@ -150,8 +153,8 @@ package com.as3joelib.joeeditor.board
 		
 		private function onClickBoardItem(e:Event):void
 		{
-		trace('Board.onClickBoardItem');
-		trace(this.is_tool_enabled);
+			trace('Board.onClickBoardItem');
+			trace(this.is_tool_enabled);
 			if (!this.is_tool_enabled)
 				return;
 			

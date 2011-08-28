@@ -3,6 +3,8 @@ package com.as3joelib.joeeditor
 	import com.as3joelib.joeeditor.board.Board;
 	import com.as3joelib.joeeditor.board.BoardItem;
 	import com.as3joelib.joeeditor.drawer.DrawBoardEasy;
+	import com.as3joelib.joeeditor.interfaces.IEditor;
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.display.Shape;
 	import flash.events.Event;
@@ -20,7 +22,7 @@ package com.as3joelib.joeeditor
 	//Descomentar esto si esta es la DocumentClass
 	//[Frame(factoryClass="joeeditor.Preloader")]
 	
-	public class JoeEditor extends Sprite
+	public class JoeEditor extends Sprite implements IEditor
 	{
 		//menus
 		private var main_menu:MainMenu;
@@ -52,7 +54,6 @@ package com.as3joelib.joeeditor
 		private function setup():void
 		{
 			this.main_menu = new MainMenu();
-			//this.stickers_menu = new StickersMenu('../assets/data.json');
 			this.main_board = new Board();
 			this.draw_board = new DrawBoardEasy();
 		}
@@ -137,6 +138,20 @@ package com.as3joelib.joeeditor
 		{
 			this.addChild(this.main_menu);
 			this.addChild(this.main_board);
+		}
+		
+		/* INTERFACE com.as3joelib.joeeditor.interfaces.IEditor */
+		
+		public function getBitmap():Bitmap 
+		{
+			//quitar el tool del board
+			this.main_board.selectNone();
+			
+			//generar un bitmap
+			var bmp:Bitmap = new Bitmap()
+			bmp.bitmapData.draw(this.main_board);
+			
+			return bmp;
 		}
 	}
 }
