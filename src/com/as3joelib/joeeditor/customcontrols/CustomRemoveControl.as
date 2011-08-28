@@ -1,4 +1,4 @@
-package joeeditor.customcontrols{
+package com.as3joelib.joeeditor.customcontrols{
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -9,9 +9,12 @@ package joeeditor.customcontrols{
 	import com.senocular.display.TransformToolControl;
 	import com.senocular.display.TransformToolCursor;
 	
-	public class CustomResetControl extends TransformToolControl {
+	public class CustomRemoveControl extends TransformToolControl {
 		
-		public function CustomResetControl() {
+		//eventos
+		public static const CLICK_REMOVE_CONTROL:String = 'clickRemoveControl';
+		
+		public function CustomRemoveControl() {
 			addEventListener(TransformTool.CONTROL_INIT, init, false, 0, true);
 			
 			this.dibujar();
@@ -23,7 +26,7 @@ package joeeditor.customcontrols{
 			this.addChild(c);
 			
 			c.x = c.width;
-			c.y = -c.x + 2 + c.height;
+			c.y = -c.x;
 		}
 		
 		private function init(event:Event):void {
@@ -32,7 +35,7 @@ package joeeditor.customcontrols{
 			transformTool.addEventListener(TransformTool.NEW_TARGET, update, false, 0, true);
 			transformTool.addEventListener(TransformTool.TRANSFORM_TOOL, update, false, 0, true);
 			transformTool.addEventListener(TransformTool.CONTROL_TRANSFORM_TOOL, update, false, 0, true);
-			addEventListener(MouseEvent.CLICK, resetClick);
+			addEventListener(MouseEvent.CLICK, onClick);
 			
 			// initial positioning
 			update();
@@ -55,30 +58,9 @@ package joeeditor.customcontrols{
 			}
 		}
 		
-		private function resetClick(event:MouseEvent):void {
+		private function onClick(event:MouseEvent):void {
 			
-			// reset the matrix but keep the current location by 
-			// noting the change in the registration point
-			var origReg:Point = transformTool.registration;
-			
-			// global matrix as a default matrix (identity)
-			transformTool.globalMatrix = new Matrix();
-			
-			// find change in positioning based on registration
-			// Note: registration location is based within
-			// the coordinate space of the tool (not global)
-			var regDiff:Point = origReg.subtract(transformTool.registration);
-			
-			// update the tool matrix with the change in position
-			// offsetting movement from the new matrix to have
-			// the old and new registration points match
-			var toolMatrix:Matrix = transformTool.toolMatrix;
-			toolMatrix.tx += regDiff.x;
-			toolMatrix.ty += regDiff.y;
-			transformTool.toolMatrix = toolMatrix;
-			
-			// apply the new matrix to the target
-			transformTool.apply();
+			this.dispatchEvent(new Event(CLICK_REMOVE_CONTROL, true));
 		}
 	}
 }

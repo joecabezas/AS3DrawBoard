@@ -1,4 +1,4 @@
-package joeeditor.board
+package com.as3joelib.joeeditor.board
 {
 	import com.greensock.loading.ImageLoader;
 	import flash.display.DisplayObject;

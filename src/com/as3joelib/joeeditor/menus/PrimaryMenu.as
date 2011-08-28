@@ -1,4 +1,4 @@
-package joeeditor.menus
+package com.as3joelib.joeeditor.menus
 {
 	import com.bit101.components.RadioButton;
 	import flash.display.Sprite;

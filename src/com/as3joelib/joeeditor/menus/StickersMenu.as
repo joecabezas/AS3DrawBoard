@@ -1,4 +1,4 @@
-package joeeditor.menus
+package com.as3joelib.joeeditor.menus
 {
 	import com.adobe.serialization.json.JSON;
 	import com.as3joelib.utils.ObjectUtil;

@@ -1,4 +1,4 @@
-package joeeditor.menus 
+package com.as3joelib.joeeditor.menus 
 {
 	import flash.display.Sprite;
 	import flash.events.Event;

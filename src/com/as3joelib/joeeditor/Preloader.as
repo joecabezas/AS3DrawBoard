@@ -1,4 +1,4 @@
-package joeeditor
+package com.as3joelib.joeeditor
 {
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;

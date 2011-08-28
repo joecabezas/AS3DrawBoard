@@ -1,4 +1,4 @@
-package joeeditor.customcontrols
+package com.as3joelib.joeeditor.customcontrols
 {
 	import com.senocular.display.TransformTool;
 	import com.senocular.display.TransformToolControl;

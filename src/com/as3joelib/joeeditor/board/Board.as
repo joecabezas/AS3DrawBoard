@@ -1,8 +1,8 @@
-package joeeditor.board
+package com.as3joelib.joeeditor.board
 {
 	import com.senocular.display.TransformTool;
-	import joeeditor.customcontrols.CustomRemoveControl;
-	import joeeditor.customcontrols.CustomResetControl;
+	import com.as3joelib.joeeditor.customcontrols.CustomRemoveControl;
+	import com.as3joelib.joeeditor.customcontrols.CustomResetControl;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;

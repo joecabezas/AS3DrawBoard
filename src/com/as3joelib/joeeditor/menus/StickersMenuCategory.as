@@ -1,4 +1,4 @@
-package joeeditor.menus 
+package com.as3joelib.joeeditor.menus 
 {
 	import com.somerandomdude.coordy.layouts.twodee.Grid;
 	import com.somerandomdude.coordy.layouts.twodee.ILayout2d;

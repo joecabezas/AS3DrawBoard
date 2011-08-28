@@ -1,4 +1,4 @@
-package joeeditor.drawer
+package com.as3joelib.joeeditor.drawer
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;

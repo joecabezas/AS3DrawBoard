@@ -1,15 +1,15 @@
-package joeeditor
+package com.as3joelib.joeeditor
 {
-	import joeeditor.board.Board;
-	import joeeditor.board.BoardItem;
-	import joeeditor.drawer.DrawBoardEasy;
+	import com.as3joelib.joeeditor.board.Board;
+	import com.as3joelib.joeeditor.board.BoardItem;
+	import com.as3joelib.joeeditor.drawer.DrawBoardEasy;
 	import flash.display.Sprite;
 	import flash.display.Shape;
 	import flash.events.Event;
-	import joeeditor.menus.DrawMenu;
-	import joeeditor.menus.MainMenu;
-	import joeeditor.menus.PrimaryMenu;
-	import joeeditor.menus.StickersMenuCategoryNode;
+	import com.as3joelib.joeeditor.menus.DrawMenu;
+	import com.as3joelib.joeeditor.menus.MainMenu;
+	import com.as3joelib.joeeditor.menus.PrimaryMenu;
+	import com.as3joelib.joeeditor.menus.StickersMenuCategoryNode;
 	
 	/**
 	 * ...
