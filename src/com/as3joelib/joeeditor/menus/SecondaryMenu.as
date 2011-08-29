@@ -59,10 +59,10 @@ package com.as3joelib.joeeditor.menus
 		public function showItem(s:String):void {
 			switch(s) {
 				case MENU_STICKERS:
-					this.switcher.showItem(this.menu_stickers);	
+					this.switcher.switchTo(this.menu_stickers);	
 					break;
 				case MENU_DRAW:
-					this.switcher.showItem(this.menu_draw);
+					this.switcher.switchTo(this.menu_draw);
 					break;
 			}
 		}

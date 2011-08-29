@@ -9,6 +9,7 @@ package com.as3joelib.joeeditor
 	import com.as3joelib.joeeditor.menus.PrimaryMenu;
 	import com.as3joelib.joeeditor.menus.StickersMenuCategoryNode;
 	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
@@ -141,16 +142,16 @@ package com.as3joelib.joeeditor
 		
 		/* INTERFACE com.as3joelib.joeeditor.interfaces.IEditor */
 		
-		public function getBitmap():Bitmap 
+		public function getBitmapData():BitmapData
 		{
 			//quitar el tool del board
 			this.main_board.selectNone();
 			
 			//generar un bitmap
-			var bmp:Bitmap = new Bitmap()
-			bmp.bitmapData.draw(this.main_board);
+			var bmpd:BitmapData = new BitmapData(300,300,true,0xffff00)
+			bmpd.draw(this.main_board);
 			
-			return bmp;
+			return bmpd;
 		}
 	}
 }

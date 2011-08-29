@@ -1,6 +1,6 @@
 package com.as3joelib.joeeditor.interfaces 
 {
-	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	
 	/**
 	 * ...
@@ -8,7 +8,7 @@ package com.as3joelib.joeeditor.interfaces
 	 */
 	public interface IEditor 
 	{
-		function getBitmap():Bitmap;
+		function getBitmapData():BitmapData;
 	}
 	
 }
