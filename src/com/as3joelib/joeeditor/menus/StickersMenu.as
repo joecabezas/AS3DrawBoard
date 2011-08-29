@@ -2,12 +2,13 @@ package com.as3joelib.joeeditor.menus
 {
 	import com.adobe.serialization.json.JSON;
 	import com.as3joelib.utils.ObjectUtil;
+	import com.bit101.components.ComboBox;
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.DataLoader;
 	import com.greensock.loading.ImageLoader;
 	import com.greensock.loading.LoaderMax;
-	import com.liamr.ui.dropDown.DropDown;
-	import com.liamr.ui.dropDown.Events.DropDownEvent;
+	//import com.liamr.ui.dropDown.DropDown;
+	//import com.liamr.ui.dropDown.Events.DropDownEvent;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Point;
@@ -40,7 +41,8 @@ package com.as3joelib.joeeditor.menus
 		private var stickers_container:Sprite;
 		
 		//dropdownmenu
-		private var dropdown_menu:DropDown;
+		//private var dropdown_menu:DropDown;
+		private var combo_box:ComboBox;
 		
 		public function StickersMenu(json_url:String)
 		{
@@ -123,9 +125,22 @@ package com.as3joelib.joeeditor.menus
 			{
 				lista.push({label:category.name});
 			}
+			ObjectUtil.pr(lista);
 			
-			this.dropdown_menu = new DropDown(lista, 'Selecciona Categoria');
-			this.dropdown_menu.addEventListener(DropDown.ITEM_SELECTED, onItemSelected);
+			this.combo_box = new ComboBox(this, 0, 0, 'Seleccione Categoria', lista);
+			this.combo_box.setSize(245, this.combo_box.height);
+			this.combo_box.addEventListener(Event.SELECT, onComboBoxSelect);
+			
+			//this.dropdown_menu = new DropDown(lista, 'Selecciona Categoria');
+			//this.dropdown_menu.addEventListener(DropDown.ITEM_SELECTED, onItemSelected);
+		}
+		
+		private function onComboBoxSelect(e:Event):void 
+		{
+			trace('StickersMenu.onComboBoxSelect');
+			//trace(e);
+			//trace(ComboBox(e.target).selectedItem.label);
+			this.dibujarCategoria(ComboBox(e.target).selectedItem.label);
 		}
 		
 		private function onStickerMaxLoaderComplete(e:LoaderEvent):void
@@ -138,14 +153,14 @@ package com.as3joelib.joeeditor.menus
 			
 		}
 		
-		private function onItemSelected(e:DropDownEvent):void 
+		/*private function onItemSelected(e:DropDownEvent):void 
 		{
 			//trace(e.selectedData);
 			//trace(e.selectedId);
 			trace('+' + e.selectedLabel);
 			this.dibujarCategoria(e.selectedLabel);
 			
-		}
+		}*/
 		
 		private function dibujarCategoria(selectedLabel:String):void 
 		{
@@ -157,7 +172,7 @@ package com.as3joelib.joeeditor.menus
 			}
 			
 			//lapiz temporal hasta que meta esto a un accordeon o algo mejor
-			var lapiz:Point = new Point(0, 32);
+			var lapiz:Point = new Point(0, 25);
 			
 			for each (var category:StickersMenuCategory in this.categories)
 			{
@@ -175,7 +190,8 @@ package com.as3joelib.joeeditor.menus
 		{
 			trace('StickersMenu.dibujar');
 			this.addChild(this.stickers_container);
-			this.addChild(this.dropdown_menu);
+			//this.addChild(this.dropdown_menu);
+			this.addChild(this.combo_box);
 		}
 		
 		public function getStickersLoader():LoaderMax

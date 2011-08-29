@@ -50,20 +50,21 @@ package com.as3joelib.joeeditor.menus
 		
 		private function onInitStickers(e:Event):void
 		{
-			this.secondary_menu.showItem(SecondaryMenu.MENU_STICKER);
+			this.secondary_menu.showItem(SecondaryMenu.MENU_STICKERS);
 		}
 		
 		private function dibujar():void
 		{
 			this.addChild(this.primary_menu);
 			this.primary_menu.x = this.stage.stageWidth - primary_menu.width - 50;
+			this.primary_menu.x = this.stage.stageWidth - primary_menu.width - 149;
 			this.primary_menu.y = 10;
 			
 			this.addChild(this.secondary_menu);
 			this.secondary_menu.x = this.stage.stageWidth - 250;
 			this.secondary_menu.y = this.primary_menu.y + this.primary_menu.height + 5;
 			
-			this.secondary_menu.showItem(SecondaryMenu.MENU_STICKER);
+			this.secondary_menu.showItem(SecondaryMenu.MENU_STICKERS);
 		}
 	
 	}

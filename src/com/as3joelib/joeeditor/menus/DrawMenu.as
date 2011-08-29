@@ -1,11 +1,7 @@
 package com.as3joelib.joeeditor.menus
 {
 	import com.bit101.components.ColorChooser;
-	import com.bit101.components.HBox;
 	import com.bit101.components.HSlider;
-	import com.bit101.components.PushButton;
-	import com.bit101.components.ScrollBar;
-	import com.bit101.components.Slider;
 	import com.bit101.components.VBox;
 	import flash.display.Sprite;
 	import flash.events.Event;

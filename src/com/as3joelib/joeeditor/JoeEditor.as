@@ -4,14 +4,13 @@ package com.as3joelib.joeeditor
 	import com.as3joelib.joeeditor.board.BoardItem;
 	import com.as3joelib.joeeditor.drawer.DrawBoardEasy;
 	import com.as3joelib.joeeditor.interfaces.IEditor;
-	import flash.display.Bitmap;
-	import flash.display.Sprite;
-	import flash.display.Shape;
-	import flash.events.Event;
 	import com.as3joelib.joeeditor.menus.DrawMenu;
 	import com.as3joelib.joeeditor.menus.MainMenu;
 	import com.as3joelib.joeeditor.menus.PrimaryMenu;
 	import com.as3joelib.joeeditor.menus.StickersMenuCategoryNode;
+	import flash.display.Bitmap;
+	import flash.display.Sprite;
+	import flash.events.Event;
 	
 	/**
 	 * ...

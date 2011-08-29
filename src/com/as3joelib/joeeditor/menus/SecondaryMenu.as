@@ -1,6 +1,7 @@
 package com.as3joelib.joeeditor.menus
 {
 	import com.as3joelib.ui.UISwitcher;
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
@@ -11,8 +12,8 @@ package com.as3joelib.joeeditor.menus
 	public class SecondaryMenu extends Sprite
 	{
 		//constantes de los elementos
-		public static const MENU_STICKER:int = 0;
-		public static const MENU_DRAW:int = 1;
+		public static const MENU_STICKERS:String = 'menuStickers';
+		public static const MENU_DRAW:String = 'menuDraw';
 		
 		//elementos
 		private var menu_stickers:StickersMenu;
@@ -39,7 +40,7 @@ package com.as3joelib.joeeditor.menus
 		
 		private function setup():void
 		{
-			this.menu_stickers = new StickersMenu('../assets/data.json');
+			this.menu_stickers = new StickersMenu('data/stickers.json');
 			this.menu_draw = new DrawMenu();
 			
 			this.switcher = new UISwitcher();
@@ -55,8 +56,15 @@ package com.as3joelib.joeeditor.menus
 		
 		}
 		
-		public function showItem(s:int):void {
-			this.switcher.switchTo(s);
+		public function showItem(s:String):void {
+			switch(s) {
+				case MENU_STICKERS:
+					this.switcher.showItem(this.menu_stickers);	
+					break;
+				case MENU_DRAW:
+					this.switcher.showItem(this.menu_draw);
+					break;
+			}
 		}
 		
 		private function dibujar():void

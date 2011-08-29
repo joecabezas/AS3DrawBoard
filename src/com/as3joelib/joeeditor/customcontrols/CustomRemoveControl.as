@@ -1,13 +1,10 @@
 package com.as3joelib.joeeditor.customcontrols{
 	
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.Matrix;
-	import flash.geom.Point;
-	
 	import com.senocular.display.TransformTool;
 	import com.senocular.display.TransformToolControl;
-	import com.senocular.display.TransformToolCursor;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	
 	
 	public class CustomRemoveControl extends TransformToolControl {
 		

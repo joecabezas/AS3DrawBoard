@@ -61,7 +61,6 @@
     <element path="lib\coordy.swc" />
     <element path="lib\DropDown.swc" />
     <element path="..\libs\swc\greensock.swc" />
-    <element path="..\libs\swc\DropDown.swc" />
     <element path="..\libs\coordy-0.9.9\swc\coordy.swc" />
   </libraryPaths>
   <!-- External Libraries -->
