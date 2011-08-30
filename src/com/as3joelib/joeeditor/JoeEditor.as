@@ -147,8 +147,11 @@ package com.as3joelib.joeeditor
 			//quitar el tool del board
 			this.main_board.selectNone();
 			
+			//to do: quiza sea necesario poner las dimensiones de las texturas que necesito hacer
+			//por ahora pongo las mas grandes posibles y utiles
+			
 			//generar un bitmap
-			var bmpd:BitmapData = new BitmapData(300,300,true,0xffff00)
+			var bmpd:BitmapData = new BitmapData(this.stage.stageWidth,this.stage.stageHeight,true,0xffff00)
 			bmpd.draw(this.main_board);
 			
 			return bmpd;
