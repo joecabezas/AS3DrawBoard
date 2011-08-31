@@ -50,14 +50,14 @@ package com.as3joelib.joeeditor
 			this.agregarListeners();
 			this.dibujar();
 		}
-		
+
 		private function setup():void
 		{
 			this.main_menu = new MainMenu();
 			this.main_board = new Board();
 			this.draw_board = new DrawBoardEasy();
 		}
-		
+
 		private function agregarListeners():void
 		{
 			this.addEventListener(StickersMenuCategoryNode.CLICK_STICKER_NODE, onClickStickerFromMenu);
@@ -67,19 +67,19 @@ package com.as3joelib.joeeditor
 			this.addEventListener(DrawMenu.CHANGE_COLOR, onChangeColor);
 			this.addEventListener(DrawMenu.CHANGE_TICKNESS, onChangeTickness);
 		}
-		
+
 		private function onChangeColor(e:Event):void
 		{
 			//trace(DrawMenu(e.target).color);
 			this.draw_board.color = DrawMenu(e.target).color;
 		}
-		
+
 		private function onChangeTickness(e:Event):void
 		{
 			//trace(DrawMenu(e.target).tickness);
 			this.draw_board.tickness = DrawMenu(e.target).tickness;
 		}
-		
+
 		private function onInitDraw(e:Event):void
 		{
 			//quitar la herramienta
@@ -93,7 +93,7 @@ package com.as3joelib.joeeditor
 			this.addChild(this.draw_board);
 			this.draw_board.beginDraw();
 		}
-		
+
 		private function onInitStickers(e:Event):void
 		{
 			//quitar la herramienta
@@ -103,20 +103,29 @@ package com.as3joelib.joeeditor
 			this.main_board.enableTool();
 			
 			//obtener el dibujo y hacerlo sticker
-			var bi:BoardItem = new BoardItem();
-			bi.generateFromDisplayObject(this.draw_board.getDraw());
-			
-			this.main_board.addItem(bi);
+			this.createStickerFromDrawBoard();
 			
 			if (this.contains(this.draw_board) && this.draw_board)
 			{
-				this.draw_board.erase();
-				this.draw_board.endDraw();
 				this.draw_board.endDraw();
 				this.removeChild(this.draw_board);
 			}
 		}
 		
+		private function createStickerFromDrawBoard():void 
+		{
+			var bi:BoardItem = new BoardItem();
+			bi.generateFromDisplayObject(this.draw_board.getDraw());
+			
+			this.main_board.addItem(bi);
+			
+			//borrar dibujo
+			this.draw_board.erase();
+			
+			//pero seguir atento a que el usuario puede seguir dibujando
+			this.draw_board.beginDraw();
+		}
+
 		private function onClickStickerFromMenu(e:Event):void
 		{
 			trace('JoeEditor.onClickStickerFromMenu');
@@ -133,20 +142,25 @@ package com.as3joelib.joeeditor
 			
 			this.main_board.addItem(bi, true);
 		}
-		
+
 		private function dibujar():void
 		{
 			this.addChild(this.main_menu);
 			this.addChild(this.main_board);
 		}
-		
+
 		/* INTERFACE com.as3joelib.joeeditor.interfaces.IEditor */
-		
+
 		public function getBitmapData():BitmapData
 		{
+			//transformar todo lo dibujado (si es que hay), en sticker
+			if ((Sprite(this.draw_board.getDraw()).width >= 0) || (Sprite(this.draw_board.getDraw()).height >= 0)) {
+				this.createStickerFromDrawBoard();
+			}
+			
 			//quitar el tool del board
 			this.main_board.selectNone();
-			
+
 			//to do: quiza sea necesario poner las dimensiones de las texturas que necesito hacer
 			//por ahora pongo las mas grandes posibles y utiles
 			
