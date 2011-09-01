@@ -6,6 +6,7 @@ package com.as3joelib.joeeditor.board
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	
 	/**
@@ -132,7 +133,7 @@ package com.as3joelib.joeeditor.board
 		
 		private function onClick(e:MouseEvent):void
 		{
-			trace('Board.onClick');
+			//trace('Board.onClick');
 			if (e.target == this.stage) {
 				this.selectNone();
 			}
@@ -188,6 +189,28 @@ package com.as3joelib.joeeditor.board
 		{
 			trace('Board.disableTool');
 			this.is_tool_enabled = false;
+		}
+		
+		public function getlastItem():BoardItem 
+		{
+			return this.items[this.items.length - 1];
+		}
+		
+		public function poplastItem():BoardItem 
+		{
+			var bi:BoardItem = this.items.pop();
+			
+			if (bi && this.contains(bi))
+				this.removeChild(bi);
+			
+			this.selectNone();
+			
+			return bi;
+		}
+		
+		public function getToolMatrix():Matrix
+		{
+			return this.tool.toolMatrix
 		}
 		
 		private function dibujar():void

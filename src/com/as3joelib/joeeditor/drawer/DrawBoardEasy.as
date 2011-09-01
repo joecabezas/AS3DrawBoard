@@ -84,7 +84,9 @@ package com.as3joelib.joeeditor.drawer
 		public function beginDraw():void
 		{
 			this.is_listening = true;
-			this.draw_container.graphics.lineStyle(this.tickness, this.color);
+			
+			if (this.draw_container && this.contains(this.draw_container))
+				this.draw_container.graphics.lineStyle(this.tickness, this.color);
 		}
 		
 		public function endDraw():void
@@ -182,7 +184,8 @@ package com.as3joelib.joeeditor.drawer
 		
 		public function erase():void
 		{
-			this.draw_container.graphics.clear();
+			if (this.draw_container && this.contains(this.draw_container))
+				this.draw_container.graphics.clear();
 		}
 		
 		private function isInsideArea():Boolean
@@ -202,11 +205,11 @@ package com.as3joelib.joeeditor.drawer
 		public function set rect(value:Rectangle):void
 		{
 			_rect = value;
-
-			/*this.draw_container.graphics.clear();
-			this.draw_container.graphics.beginFill(0, 0.05);
-			this.draw_container.graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
-			this.draw_container.graphics.endFill();*/
+		
+		/*this.draw_container.graphics.clear();
+		   this.draw_container.graphics.beginFill(0, 0.05);
+		   this.draw_container.graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
+		 this.draw_container.graphics.endFill();*/
 		
 		}
 		
@@ -231,12 +234,14 @@ package com.as3joelib.joeeditor.drawer
 			_color = value;
 			this.draw_container.graphics.lineStyle(this.tickness, this.color);
 		}
-
+		
 		public function getDraw():DisplayObject
-		{			
+		{
 			var sp:Sprite = new Sprite();
-			sp.graphics.copyFrom(this.draw_container.graphics);
-
+			
+			if (this.draw_container && this.contains(this.draw_container))
+				sp.graphics.copyFrom(this.draw_container.graphics);
+			
 			return sp;
 		}
 		

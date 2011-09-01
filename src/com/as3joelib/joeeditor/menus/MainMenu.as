@@ -41,8 +41,9 @@ package com.as3joelib.joeeditor.menus
 		{
 			this.addEventListener(PrimaryMenu.INIT_DRAW, onInitDraw);
 			this.addEventListener(PrimaryMenu.INIT_STICKERS, onInitStickers);
+			this.addEventListener(PrimaryMenu.INIT_WEBCAM, onInitWebcam);
 		}
-		
+
 		private function onInitDraw(e:Event):void
 		{
 			this.secondary_menu.showItem(SecondaryMenu.MENU_DRAW);
@@ -53,11 +54,15 @@ package com.as3joelib.joeeditor.menus
 			this.secondary_menu.showItem(SecondaryMenu.MENU_STICKERS);
 		}
 		
+		private function onInitWebcam(e:Event):void 
+		{
+			this.secondary_menu.showItem(SecondaryMenu.MENU_WEBCAM);
+		}
+		
 		private function dibujar():void
 		{
 			this.addChild(this.primary_menu);
-			this.primary_menu.x = this.stage.stageWidth - primary_menu.width - 50;
-			this.primary_menu.x = this.stage.stageWidth - primary_menu.width - 149;
+			this.primary_menu.x = this.stage.stageWidth - primary_menu.width - 90;
 			this.primary_menu.y = 10;
 			
 			this.addChild(this.secondary_menu);

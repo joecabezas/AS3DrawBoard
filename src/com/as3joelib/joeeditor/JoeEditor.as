@@ -8,10 +8,14 @@ package com.as3joelib.joeeditor
 	import com.as3joelib.joeeditor.menus.MainMenu;
 	import com.as3joelib.joeeditor.menus.PrimaryMenu;
 	import com.as3joelib.joeeditor.menus.StickersMenuCategoryNode;
+	import com.as3joelib.joeeditor.menus.WebcamMenu;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.geom.Transform;
+	import flash.media.Camera;
+	import flash.media.Video;
 	
 	/**
 	 * ...
@@ -32,6 +36,10 @@ package com.as3joelib.joeeditor
 		
 		//drawboard
 		private var draw_board:DrawBoardEasy;
+		
+		//instancia de video para la webcam
+		private var video:Video;
+		private var bi_video:BoardItem;
 		
 		public function JoeEditor():void
 		{
@@ -61,11 +69,38 @@ package com.as3joelib.joeeditor
 		private function agregarListeners():void
 		{
 			this.addEventListener(StickersMenuCategoryNode.CLICK_STICKER_NODE, onClickStickerFromMenu);
+			
 			this.addEventListener(PrimaryMenu.INIT_DRAW, onInitDraw);
 			this.addEventListener(PrimaryMenu.INIT_STICKERS, onInitStickers);
+			this.addEventListener(PrimaryMenu.INIT_WEBCAM, onInitWebcam);
 			
 			this.addEventListener(DrawMenu.CHANGE_COLOR, onChangeColor);
 			this.addEventListener(DrawMenu.CHANGE_TICKNESS, onChangeTickness);
+			
+			this.addEventListener(WebcamMenu.WEBCAM_READY, onWebCamReady);
+		}
+		
+		private function onWebCamReady(e:Event):void
+		{
+			//quitar
+			//obtener el bitmapdata del video
+			var bmpd:BitmapData = new BitmapData(this.video.width, this.video.height, false);
+			
+			//dibujar el video, quitandolo del main board
+			bmpd.draw(this.main_board.poplastItem());
+			
+			//crear el bitmap
+			var bmp:Bitmap = new Bitmap(bmpd);
+			
+			//aplicar matrix al bitmap
+			bmp.transform.matrix = this.main_board.getToolMatrix();
+			
+			//crear board item
+			var bi:BoardItem = new BoardItem();
+			bi.generateFromDisplayObject(bmp);
+			
+			//agregar board item al main board
+			this.main_board.addItem(bi);
 		}
 
 		private function onChangeColor(e:Event):void
@@ -112,6 +147,44 @@ package com.as3joelib.joeeditor
 			}
 		}
 		
+		private function onInitWebcam(e:Event):void 
+		{
+			trace('JoeEditor.onInitWebcam');
+			
+			//quitar la herramienta
+			this.main_board.selectNone();
+			
+			//activar la herramienta
+			this.main_board.enableTool();
+			
+			//obtener video de la webcam y agregarlo al board
+			
+			//obtener instancia de camera
+			var cam:Camera = Camera.getCamera();
+			
+			//camera configs
+			cam.setQuality(0, 100);
+			cam.setMode(320, 240, 25, true);
+			
+			//agregar el stream de la cam a un objeto de video
+			this.video = new Video();
+			this.video.attachCamera(cam);
+			
+			//generar el board item
+			this.bi_video = new BoardItem();
+			this.bi_video.generateFromDisplayObject(this.video);
+			
+			this.main_board.addItem(this.bi_video);
+			//this.addChild(video);
+			
+			
+			if (this.contains(this.draw_board) && this.draw_board)
+			{
+				this.draw_board.endDraw();
+				this.removeChild(this.draw_board);
+			}
+		}
+		
 		private function createStickerFromDrawBoard():void 
 		{
 			var bi:BoardItem = new BoardItem();
@@ -134,8 +207,6 @@ package com.as3joelib.joeeditor
 			this.main_board.enableTool();
 			
 			var scn:StickersMenuCategoryNode = e.target as StickersMenuCategoryNode;
-			trace(scn.width);
-			trace(scn.height);
 			
 			var bi:BoardItem = new BoardItem();
 			bi.generateFromUrl(scn.url, scn.width, scn.height);

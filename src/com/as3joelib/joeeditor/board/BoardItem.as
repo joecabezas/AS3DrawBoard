@@ -1,6 +1,7 @@
 package com.as3joelib.joeeditor.board
 {
 	import com.greensock.loading.ImageLoader;
+	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -45,12 +46,19 @@ package com.as3joelib.joeeditor.board
 			//osea de tamaño cero (dibujo vacio por ejemplo)
 			if ((d.width <= 0) && (d.height <= 0))
 				return;
-	
+			
 			this.img = d;
 			
-			this.img.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			
+			this.agregarListeners();
 			this.dibujar();
+		}
+		
+		public function getBitmapData():BitmapData 
+		{
+			var bmpd:BitmapData = new BitmapData(this.img.width, this.img.height, false);
+			bmpd.draw(this.img);
+			
+			return bmpd;
 		}
 		
 		private function setup():void
@@ -69,11 +77,12 @@ package com.as3joelib.joeeditor.board
 		
 		private function agregarListeners():void
 		{
-			this.img.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			this.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		}
 		
 		private function onMouseDown(e:MouseEvent):void
 		{
+			trace('BoardItem.onMouseDown');
 			this.dispatchEvent(new Event(MOUSE_DOWN_BOARD_ITEM, true));
 		}
 		
