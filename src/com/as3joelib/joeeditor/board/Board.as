@@ -125,7 +125,8 @@ package com.as3joelib.joeeditor.board
 			this.stage.addEventListener(MouseEvent.CLICK, onClick);
 			
 			//atento a cuando hagan click en algun sticker del board
-			this.addEventListener(BoardItem.MOUSE_DOWN_BOARD_ITEM, onClickBoardItem);
+			this.addEventListener(BoardItem.MOUSE_DOWN_BOARD_ITEM, onMouseDownBoardItem);
+			this.addEventListener(BoardItem.MOUSE_UP_BOARD_ITEM, onMouseUpBoardItem);
 			
 			//atento a cuando quieran remover un sticker
 			this.addEventListener(CustomRemoveControl.CLICK_REMOVE_CONTROL, onClickRemoveItem);
@@ -152,14 +153,28 @@ package com.as3joelib.joeeditor.board
 			}
 		}
 		
-		private function onClickBoardItem(e:Event):void
+		private function onMouseDownBoardItem(e:Event):void
 		{
-			trace('Board.onClickBoardItem');
-			trace(this.is_tool_enabled);
 			if (!this.is_tool_enabled)
 				return;
 			
-			this.updateTarget(e.target as BoardItem);
+			//permitir inmediatamente poder arrastrar el elemento
+			this.tool.moveNewTargets = true;
+			
+			//actualizar el tool
+			this.updateTarget(e.target as BoardItem);			
+		}
+		
+		private function onMouseUpBoardItem(e:Event):void
+		{
+			if (!this.is_tool_enabled)
+				return;
+			
+			//dejamos de mover el board item, ya que levantamos el mouse
+			this.tool.moveNewTargets = false;
+			
+			//actualizar el tool
+			//this.updateTarget(e.target as BoardItem);			
 		}
 		
 		private function updateTarget(bi:BoardItem):void

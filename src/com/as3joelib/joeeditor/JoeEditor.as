@@ -21,7 +21,7 @@ package com.as3joelib.joeeditor
 	 * ...
 	 * @author Joe Cabezas
 	 */
-	[SWF(backgroundColor='#ffffff',frameRate='30')]
+	//[SWF(backgroundColor='#ffffff',frameRate='30')]
 	
 	//Descomentar esto si esta es la DocumentClass
 	//[Frame(factoryClass="joeeditor.Preloader")]

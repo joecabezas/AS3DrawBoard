@@ -15,6 +15,7 @@ package com.as3joelib.joeeditor.board
 	{
 		//constantes de eventos
 		public static const MOUSE_DOWN_BOARD_ITEM:String = 'mouseDownBoardItem';
+		public static const MOUSE_UP_BOARD_ITEM:String = 'mouseUpBoardItem';
 		
 		private var url:String;
 		private var loader:ImageLoader;
@@ -78,12 +79,18 @@ package com.as3joelib.joeeditor.board
 		private function agregarListeners():void
 		{
 			this.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 		
 		private function onMouseDown(e:MouseEvent):void
 		{
 			trace('BoardItem.onMouseDown');
 			this.dispatchEvent(new Event(MOUSE_DOWN_BOARD_ITEM, true));
+		}
+		
+		private function onMouseUp(e:MouseEvent):void
+		{
+			this.dispatchEvent(new Event(MOUSE_UP_BOARD_ITEM, true));
 		}
 		
 		private function dibujar():void
