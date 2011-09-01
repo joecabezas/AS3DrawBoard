@@ -2,9 +2,11 @@ package com.as3joelib.joeeditor.menus
 {
 	import com.bit101.components.ColorChooser;
 	import com.bit101.components.HSlider;
+	import com.bit101.components.PushButton;
 	import com.bit101.components.VBox;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	/**
 	 * ...
@@ -13,6 +15,9 @@ package com.as3joelib.joeeditor.menus
 	public class DrawMenu extends Sprite
 	{
 		//eventos
+		public static const DRAW_READY:String = 'drawReady';
+		
+		//eventos
 		public static const CHANGE_COLOR:String = 'changeColor';
 		public static const CHANGE_TICKNESS:String = 'changeTickness';
 		
@@ -20,6 +25,7 @@ package com.as3joelib.joeeditor.menus
 		
 		private var scrollbar:HSlider;
 		private var color_pick:ColorChooser;
+		private var btn_ready:PushButton;
 		
 		//variables configurables en este menu
 		private var _tickness:Number;
@@ -49,6 +55,13 @@ package com.as3joelib.joeeditor.menus
 			this.scrollbar = new HSlider(this.vbox, 0, 0, onHslider);
 			this.color_pick = new ColorChooser(this.vbox, 0, 0, 0x31335e, onColorChooser);
 			this.color_pick.usePopup = true;
+			
+			this.btn_ready = new PushButton(this.vbox, 0, 0, 'Listo', onBtnReadyClick);
+		}
+		
+		private function onBtnReadyClick(e:MouseEvent):void 
+		{
+			this.dispatchEvent(new Event(DRAW_READY, true));
 		}
 		
 		private function onColorChooser(e:Event):void 

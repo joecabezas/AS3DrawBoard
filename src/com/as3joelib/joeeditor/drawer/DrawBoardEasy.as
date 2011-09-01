@@ -76,7 +76,7 @@ package com.as3joelib.joeeditor.drawer
 			
 			//setting the default pen style
 			this.tickness = 7;
-			this.color = 0x31335e;
+			this.color = 0x000000;
 			
 			this.beginDraw();
 		}
@@ -140,6 +140,10 @@ package com.as3joelib.joeeditor.drawer
 		private function onMouseDown(e:MouseEvent):void
 		{
 			if (!this.is_listening)
+				return;
+			
+			trace(this.mouseEnabled);
+			if (!this.mouseEnabled)
 				return;
 			
 			trace('DrawBoardEasy.onMouseDown');

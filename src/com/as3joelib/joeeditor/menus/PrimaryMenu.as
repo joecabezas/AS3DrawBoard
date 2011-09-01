@@ -32,29 +32,50 @@ package com.as3joelib.joeeditor.menus
 		}
 		
 		private function setup():void
-		{			
+		{
 			this.radio_button_pintar = new RadioButton(this, 0, 0, PINTAR, false, onClickRadioButton);
-			this.radio_button_stickers = new RadioButton(this, 0, 0, STICKERS, true, onClickRadioButton);
+			this.radio_button_stickers = new RadioButton(this, 0, 0, STICKERS, false, onClickRadioButton);
 			this.radio_button_webcam = new RadioButton(this, 0, 0, WEBCAM, false, onClickRadioButton);
 		}
 		
-		private function onClickRadioButton(e:Event):void 
+		private function onClickRadioButton(e:Event):void
 		{
-			switch(RadioButton(e.target).label) {
-				case PINTAR:
-					this.dispatchEvent(new Event(INIT_DRAW,true));
+			
+			switch (RadioButton(e.target).label)
+			{
+				case PINTAR: 
+					this.initAction(INIT_DRAW);
 					break;
 				case STICKERS:
-					this.dispatchEvent(new Event(INIT_STICKERS,true));
+					this.initAction(INIT_STICKERS);
 					break;
 				case WEBCAM:
-					this.dispatchEvent(new Event(INIT_WEBCAM,true));
+					this.initAction(INIT_WEBCAM);
 					break;
 			}
 		}
 		
 		private function agregarListeners():void
 		{
+		}
+		
+		public function initAction(a:String):void
+		{
+			switch (a)
+			{
+				case INIT_DRAW: 
+					this.radio_button_pintar.selected = true;
+					this.dispatchEvent(new Event(INIT_DRAW, true));
+					break;
+				case INIT_STICKERS: 
+					this.radio_button_stickers.selected = true;
+					this.dispatchEvent(new Event(INIT_STICKERS, true));
+					break;
+				case INIT_WEBCAM: 
+					this.radio_button_webcam.selected = true;
+					this.dispatchEvent(new Event(INIT_WEBCAM, true));
+					break;
+			}
 		}
 		
 		private function dibujar():void

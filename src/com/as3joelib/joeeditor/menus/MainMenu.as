@@ -1,5 +1,6 @@
 package com.as3joelib.joeeditor.menus
 {
+	import com.as3joelib.joeeditor.JoeEditor;
 	import com.as3joelib.ui.UISwitcher;
 	import flash.display.Sprite;
 	import flash.events.DataEvent;
@@ -15,7 +16,7 @@ package com.as3joelib.joeeditor.menus
 		private var secondary_menu:SecondaryMenu;
 		
 		public function MainMenu()
-		{
+		{			
 			if (stage)
 				init();
 			else
@@ -42,6 +43,36 @@ package com.as3joelib.joeeditor.menus
 			this.addEventListener(PrimaryMenu.INIT_DRAW, onInitDraw);
 			this.addEventListener(PrimaryMenu.INIT_STICKERS, onInitStickers);
 			this.addEventListener(PrimaryMenu.INIT_WEBCAM, onInitWebcam);
+			
+			//atento a cuando hagan click en boton de "tomar foto de webcam"
+			//y cambiar al menu de stickers
+			this.addEventListener(WebcamMenu.WEBCAM_READY, onActionReady);
+			this.addEventListener(DrawMenu.DRAW_READY, onActionReady);
+			
+		}
+		
+		private function onActionReady(e:Event):void 
+		{
+			switch(e.type) {
+				case DrawMenu.DRAW_READY:
+				case WebcamMenu.WEBCAM_READY:
+					this.primary_menu.initAction(PrimaryMenu.INIT_STICKERS);
+					break;
+			}
+		}
+		
+		public function initAction(a:String) {
+			switch(a) {
+				case JoeEditor.ACTIVITY_DRAW:
+					this.primary_menu.initAction(PrimaryMenu.INIT_DRAW);
+					break;
+				case JoeEditor.ACTIVITY_STICKERS:
+					this.primary_menu.initAction(PrimaryMenu.INIT_STICKERS);
+					break;
+				case JoeEditor.ACTIVITY_WEBCAM:
+					this.primary_menu.initAction(PrimaryMenu.INIT_WEBCAM);
+					break;
+			}
 		}
 
 		private function onInitDraw(e:Event):void
@@ -71,7 +102,6 @@ package com.as3joelib.joeeditor.menus
 			
 			this.secondary_menu.showItem(SecondaryMenu.MENU_STICKERS);
 		}
-	
 	}
 
 }

@@ -28,6 +28,14 @@ package com.as3joelib.joeeditor
 	
 	public class JoeEditor extends Sprite implements IEditor
 	{
+		//constantes para la actividad actual
+		public static const ACTIVITY_DRAW:String = 'activityDraw';
+		public static const ACTIVITY_STICKERS:String = 'activityStickers';
+		public static const ACTIVITY_WEBCAM:String = 'activityWebcam';
+		
+		//variable de la actividad actual
+		private var actividad_actual:String;
+		
 		//menus
 		private var main_menu:MainMenu;
 		
@@ -39,7 +47,6 @@ package com.as3joelib.joeeditor
 		
 		//instancia de video para la webcam
 		private var video:Video;
-		private var bi_video:BoardItem;
 		
 		public function JoeEditor():void
 		{
@@ -58,14 +65,16 @@ package com.as3joelib.joeeditor
 			this.agregarListeners();
 			this.dibujar();
 		}
-
+		
 		private function setup():void
 		{
+			this.actividad_actual = JoeEditor.ACTIVITY_STICKERS;
+			
 			this.main_menu = new MainMenu();
 			this.main_board = new Board();
 			this.draw_board = new DrawBoardEasy();
 		}
-
+		
 		private function agregarListeners():void
 		{
 			this.addEventListener(StickersMenuCategoryNode.CLICK_STICKER_NODE, onClickStickerFromMenu);
@@ -76,47 +85,30 @@ package com.as3joelib.joeeditor
 			
 			this.addEventListener(DrawMenu.CHANGE_COLOR, onChangeColor);
 			this.addEventListener(DrawMenu.CHANGE_TICKNESS, onChangeTickness);
-			
-			this.addEventListener(WebcamMenu.WEBCAM_READY, onWebCamReady);
 		}
 		
 		private function onWebCamReady(e:Event):void
 		{
-			//quitar
-			//obtener el bitmapdata del video
-			var bmpd:BitmapData = new BitmapData(this.video.width, this.video.height, false);
-			
-			//dibujar el video, quitandolo del main board
-			bmpd.draw(this.main_board.poplastItem());
-			
-			//crear el bitmap
-			var bmp:Bitmap = new Bitmap(bmpd);
-			
-			//aplicar matrix al bitmap
-			bmp.transform.matrix = this.main_board.getToolMatrix();
-			
-			//crear board item
-			var bi:BoardItem = new BoardItem();
-			bi.generateFromDisplayObject(bmp);
-			
-			//agregar board item al main board
-			this.main_board.addItem(bi);
+			this.createStickerFromWebcam();
 		}
-
+		
 		private function onChangeColor(e:Event):void
 		{
 			//trace(DrawMenu(e.target).color);
 			this.draw_board.color = DrawMenu(e.target).color;
 		}
-
+		
 		private function onChangeTickness(e:Event):void
 		{
 			//trace(DrawMenu(e.target).tickness);
 			this.draw_board.tickness = DrawMenu(e.target).tickness;
 		}
-
+		
 		private function onInitDraw(e:Event):void
 		{
+			//crear sticker de otras actividades no finalizadas
+			this.createStickerFromActivities();
+			
 			//quitar la herramienta
 			this.main_board.selectNone();
 			
@@ -127,29 +119,40 @@ package com.as3joelib.joeeditor
 			//iniciar drawboard
 			this.addChild(this.draw_board);
 			this.draw_board.beginDraw();
+			
+			//actualziar la actividad actual
+			this.actividad_actual = JoeEditor.ACTIVITY_DRAW;
 		}
-
+		
 		private function onInitStickers(e:Event):void
 		{
+			trace('JoeEditor.onInitStickers');
+			
 			//quitar la herramienta
 			this.main_board.selectNone();
 			
 			//activar la herramienta
 			this.main_board.enableTool();
 			
-			//obtener el dibujo y hacerlo sticker
-			this.createStickerFromDrawBoard();
+			//crear sticker de otras actividades no finalizadas
+			this.createStickerFromActivities();
 			
 			if (this.contains(this.draw_board) && this.draw_board)
 			{
 				this.draw_board.endDraw();
 				this.removeChild(this.draw_board);
 			}
+			
+			//actualizar la actividad actual
+			this.actividad_actual = JoeEditor.ACTIVITY_STICKERS;
 		}
 		
-		private function onInitWebcam(e:Event):void 
+		private function onInitWebcam(e:Event):void
 		{
 			trace('JoeEditor.onInitWebcam');
+			
+			//crear sticker de otras actividades no finalizadas
+			this.createStickerFromActivities();
 			
 			//quitar la herramienta
 			this.main_board.selectNone();
@@ -171,21 +174,37 @@ package com.as3joelib.joeeditor
 			this.video.attachCamera(cam);
 			
 			//generar el board item
-			this.bi_video = new BoardItem();
-			this.bi_video.generateFromDisplayObject(this.video);
+			var bi:BoardItem = new BoardItem();
+			bi.generateFromDisplayObject(this.video);
 			
-			this.main_board.addItem(this.bi_video);
-			//this.addChild(video);
-			
+			this.main_board.addItem(bi, true);
 			
 			if (this.contains(this.draw_board) && this.draw_board)
 			{
 				this.draw_board.endDraw();
 				this.removeChild(this.draw_board);
 			}
+			
+			//actualziar la actividad actual
+			this.actividad_actual = JoeEditor.ACTIVITY_WEBCAM;
 		}
 		
-		private function createStickerFromDrawBoard():void 
+		private function createStickerFromActivities():void
+		{
+			switch (this.actividad_actual)
+			{
+				case JoeEditor.ACTIVITY_DRAW:
+					if ((Sprite(this.draw_board.getDraw()).width >= 0) || (Sprite(this.draw_board.getDraw()).height >= 0))
+						this.createStickerFromDrawBoard();
+					break;
+				case JoeEditor.ACTIVITY_WEBCAM: 
+					this.createStickerFromWebcam();
+					break;
+			}
+		
+		}
+		
+		private function createStickerFromDrawBoard():void
 		{
 			var bi:BoardItem = new BoardItem();
 			bi.generateFromDisplayObject(this.draw_board.getDraw());
@@ -196,9 +215,35 @@ package com.as3joelib.joeeditor
 			this.draw_board.erase();
 			
 			//pero seguir atento a que el usuario puede seguir dibujando
-			this.draw_board.beginDraw();
+			//this.draw_board.beginDraw();
 		}
-
+		
+		private function createStickerFromWebcam():void
+		{
+			//quitar
+			//obtener el bitmapdata del video
+			var bmpd:BitmapData = new BitmapData(this.video.width, this.video.height, false);
+			
+			//dibujar el video, quitandolo del main board
+			bmpd.draw(this.main_board.poplastItem());
+			
+			//crear el bitmap
+			var bmp:Bitmap = new Bitmap(bmpd);
+			
+			//aplicar matrix al bitmap
+			bmp.transform.matrix = this.main_board.getToolMatrix();
+			
+			//crear board item
+			var bi:BoardItem = new BoardItem();
+			bi.generateFromDisplayObject(bmp);
+			
+			//agregar board item al main board
+			this.main_board.addItem(bi);
+		
+			//remover referencia del video
+			//this.video = null;
+		}
+		
 		private function onClickStickerFromMenu(e:Event):void
 		{
 			trace('JoeEditor.onClickStickerFromMenu');
@@ -213,31 +258,33 @@ package com.as3joelib.joeeditor
 			
 			this.main_board.addItem(bi, true);
 		}
-
+		
 		private function dibujar():void
 		{
 			this.addChild(this.main_menu);
 			this.addChild(this.main_board);
 		}
-
+		
 		/* INTERFACE com.as3joelib.joeeditor.interfaces.IEditor */
-
+		
 		public function getBitmapData():BitmapData
-		{
-			//transformar todo lo dibujado (si es que hay), en sticker
-			if ((Sprite(this.draw_board.getDraw()).width >= 0) || (Sprite(this.draw_board.getDraw()).height >= 0)) {
-				this.createStickerFromDrawBoard();
-			}
+		{			
+			//crear sticker de otras actividades no finalizadas
+			//this.createStickerFromActivities();
 			
 			//quitar el tool del board
 			this.main_board.selectNone();
-
+			
 			//to do: quiza sea necesario poner las dimensiones de las texturas que necesito hacer
 			//por ahora pongo las mas grandes posibles y utiles
 			
 			//generar un bitmap
-			var bmpd:BitmapData = new BitmapData(this.stage.stageWidth,this.stage.stageHeight,true,0xffff00)
+			var bmpd:BitmapData = new BitmapData(this.stage.stageWidth, this.stage.stageHeight, true, 0xffff00)
 			bmpd.draw(this.main_board);
+			
+			//hacer que la actividad principal sea ahora la de los stickers
+			this.main_menu.initAction(JoeEditor.ACTIVITY_STICKERS);
+			this.actividad_actual = JoeEditor.ACTIVITY_STICKERS;
 			
 			return bmpd;
 		}
