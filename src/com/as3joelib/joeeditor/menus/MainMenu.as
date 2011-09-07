@@ -61,7 +61,7 @@ package com.as3joelib.joeeditor.menus
 			}
 		}
 		
-		public function initAction(a:String) {
+		public function initAction(a:String):void {
 			switch(a) {
 				case JoeEditor.ACTIVITY_DRAW:
 					this.primary_menu.initAction(PrimaryMenu.INIT_DRAW);
