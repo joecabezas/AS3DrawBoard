@@ -1,6 +1,7 @@
 package com.as3joelib.joeeditor.menus
 {
 	import com.as3joelib.ui.UISwitcher;
+	import com.as3joelib.utils.Singleton;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -42,7 +43,7 @@ package com.as3joelib.joeeditor.menus
 		
 		private function setup():void
 		{
-			this.menu_stickers = new StickersMenu('data/stickers.json');
+			this.menu_stickers = new StickersMenu(Singleton.getInstance().data.joeeditor_stickers_json_url);
 			this.menu_draw = new DrawMenu();
 			this.menu_webcam = new WebcamMenu();
 			

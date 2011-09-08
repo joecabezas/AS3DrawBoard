@@ -1,5 +1,7 @@
 package com.as3joelib.joeeditor
 {
+	import com.adobe.crypto.MD5;
+	import com.adobe.utils.StringUtil;
 	import com.as3joelib.joeeditor.board.Board;
 	import com.as3joelib.joeeditor.board.BoardItem;
 	import com.as3joelib.joeeditor.drawer.DrawBoardEasy;
@@ -9,10 +11,13 @@ package com.as3joelib.joeeditor
 	import com.as3joelib.joeeditor.menus.PrimaryMenu;
 	import com.as3joelib.joeeditor.menus.StickersMenuCategoryNode;
 	import com.as3joelib.joeeditor.menus.WebcamMenu;
+	import com.as3joelib.utils.Singleton;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
 	import flash.geom.Transform;
 	import flash.media.Camera;
 	import flash.media.Video;
@@ -48,8 +53,13 @@ package com.as3joelib.joeeditor
 		//instancia de video para la webcam
 		private var video:Video;
 		
-		public function JoeEditor():void
+		//uniqueId de este editor
+		//private var unique_id:String;
+		
+		public function JoeEditor(stickers_json_url:String):void
 		{
+			this.setStickersJsonUrl(stickers_json_url);
+			
 			if (stage)
 				init();
 			else
@@ -68,6 +78,15 @@ package com.as3joelib.joeeditor
 		
 		private function setup():void
 		{
+			/*
+			   //set unique id
+			   this.unique_id = '';
+			   for (var i:uint = 0; i < 32; i++) {
+			   this.unique_id += String(Math.round(Math.random() * 10));
+			   }
+			   this.unique_id = MD5.hash(this.unique_id);
+			 */
+			
 			this.actividad_actual = JoeEditor.ACTIVITY_STICKERS;
 			
 			this.main_menu = new MainMenu();
@@ -193,7 +212,7 @@ package com.as3joelib.joeeditor
 		{
 			switch (this.actividad_actual)
 			{
-				case JoeEditor.ACTIVITY_DRAW:
+				case JoeEditor.ACTIVITY_DRAW: 
 					if ((Sprite(this.draw_board.getDraw()).width >= 0) || (Sprite(this.draw_board.getDraw()).height >= 0))
 						this.createStickerFromDrawBoard();
 					break;
@@ -213,7 +232,7 @@ package com.as3joelib.joeeditor
 			
 			//borrar dibujo
 			this.draw_board.erase();
-			
+		
 			//pero seguir atento a que el usuario puede seguir dibujando
 			//this.draw_board.beginDraw();
 		}
@@ -268,7 +287,7 @@ package com.as3joelib.joeeditor
 		/* INTERFACE com.as3joelib.joeeditor.interfaces.IEditor */
 		
 		public function getBitmapData():BitmapData
-		{			
+		{
 			//crear sticker de otras actividades no finalizadas
 			//this.createStickerFromActivities();
 			
@@ -279,14 +298,30 @@ package com.as3joelib.joeeditor
 			//por ahora pongo las mas grandes posibles y utiles
 			
 			//generar un bitmap
-			var bmpd:BitmapData = new BitmapData(this.stage.stageWidth, this.stage.stageHeight, true, 0xffff00)
-			bmpd.draw(this.main_board);
+			var bmpd:BitmapData = new BitmapData(this.main_board.getBounds(this.stage).width, this.main_board.getBounds(this.stage).height, true, 0xffff00)
+			var matrix:Matrix = new Matrix();
+			matrix.translate(-this.main_board.getBounds(this.stage).x, -this.main_board.getBounds(this.stage).y);
+			
+			bmpd.draw(this.main_board, matrix);
 			
 			//hacer que la actividad principal sea ahora la de los stickers
 			this.main_menu.initAction(JoeEditor.ACTIVITY_STICKERS);
 			this.actividad_actual = JoeEditor.ACTIVITY_STICKERS;
 			
 			return bmpd;
+		}
+		
+		private function setStickersJsonUrl(s:String):void
+		{
+			if (!Singleton.getInstance().data)
+			{
+				Singleton.getInstance().data = new Object();
+			}
+			
+			if (!Singleton.getInstance().data.joeeditor_stickers_json_url)
+			{
+				Singleton.getInstance().data.joeeditor_stickers_json_url = s;
+			}
 		}
 	}
 }

@@ -9,6 +9,8 @@ package com.as3joelib.joeeditor.interfaces
 	public interface IEditor 
 	{
 		function getBitmapData():BitmapData;
+		
+		//function setStickersJsonUrl(s:String):void;
 	}
 	
 }
