@@ -15,11 +15,13 @@ package com.as3joelib.joeeditor.menus
 		//constantes de los elementos
 		public static const MENU_STICKERS:String = 'menuStickers';
 		public static const MENU_DRAW:String = 'menuDraw';
+		public static const MENU_EXTERNAL_IMAGE:String = 'menuWebcam';
 		public static const MENU_WEBCAM:String = 'menuWebcam';
 		
 		//elementos
 		private var menu_stickers:StickersMenu;
 		private var menu_draw:DrawMenu;
+		private var menu_external_image:ExternalImageMenu;
 		private var menu_webcam:WebcamMenu;
 		
 		private var switcher:UISwitcher;
@@ -45,12 +47,14 @@ package com.as3joelib.joeeditor.menus
 		{
 			this.menu_stickers = new StickersMenu(Singleton.getInstance().data.joeeditor_stickers_json_url);
 			this.menu_draw = new DrawMenu();
+			this.menu_external_image = new ExternalImageMenu();
 			this.menu_webcam = new WebcamMenu();
 			
 			this.switcher = new UISwitcher();
 			
 			this.switcher.addItem(this.menu_stickers);
 			this.switcher.addItem(this.menu_draw);
+			this.switcher.addItem(this.menu_external_image);
 			this.switcher.addItem(this.menu_webcam);
 			
 			this.switcher.hideAllItems();
@@ -69,6 +73,10 @@ package com.as3joelib.joeeditor.menus
 				case MENU_DRAW:
 					this.switcher.switchTo(this.menu_draw);
 					break;
+				case MENU_EXTERNAL_IMAGE:
+					this.switcher.switchTo(this.menu_external_image);
+					this.menu_external_image.setFocus();
+					break;
 				case MENU_WEBCAM:
 					this.switcher.switchTo(this.menu_webcam);
 					break;
@@ -79,6 +87,7 @@ package com.as3joelib.joeeditor.menus
 		{
 			this.addChild(this.menu_stickers);
 			this.addChild(this.menu_draw);
+			this.addChild(this.menu_external_image);
 			this.addChild(this.menu_webcam);
 		}
 	

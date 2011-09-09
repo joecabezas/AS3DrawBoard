@@ -7,6 +7,7 @@ package com.as3joelib.joeeditor
 	import com.as3joelib.joeeditor.drawer.DrawBoardEasy;
 	import com.as3joelib.joeeditor.interfaces.IEditor;
 	import com.as3joelib.joeeditor.menus.DrawMenu;
+	import com.as3joelib.joeeditor.menus.ExternalImageMenu;
 	import com.as3joelib.joeeditor.menus.MainMenu;
 	import com.as3joelib.joeeditor.menus.PrimaryMenu;
 	import com.as3joelib.joeeditor.menus.StickersMenuCategoryNode;
@@ -36,6 +37,7 @@ package com.as3joelib.joeeditor
 		//constantes para la actividad actual
 		public static const ACTIVITY_DRAW:String = 'activityDraw';
 		public static const ACTIVITY_STICKERS:String = 'activityStickers';
+		public static const ACTIVITY_EXTERNAL_IMAGE:String = 'activityExternalImage';
 		public static const ACTIVITY_WEBCAM:String = 'activityWebcam';
 		
 		//variable de la actividad actual
@@ -97,6 +99,8 @@ package com.as3joelib.joeeditor
 		private function agregarListeners():void
 		{
 			this.addEventListener(StickersMenuCategoryNode.CLICK_STICKER_NODE, onClickStickerFromMenu);
+			
+			this.addEventListener(ExternalImageMenu.CLICK_EXTERNAL_IMAGE_BUTTON, onClickExternalImageButton);
 			
 			this.addEventListener(PrimaryMenu.INIT_DRAW, onInitDraw);
 			this.addEventListener(PrimaryMenu.INIT_STICKERS, onInitStickers);
@@ -274,6 +278,21 @@ package com.as3joelib.joeeditor
 			
 			var bi:BoardItem = new BoardItem();
 			bi.generateFromUrl(scn.url, scn.width, scn.height);
+			
+			this.main_board.addItem(bi, true);
+		}
+		
+		private function onClickExternalImageButton(e:Event):void 
+		{
+			trace('JoeEditor.onClickStickerFromMenu');
+			
+			//habilitar la herramienta del board
+			this.main_board.enableTool();
+			
+			var t:ExternalImageMenu = e.target as ExternalImageMenu;
+			
+			var bi:BoardItem = new BoardItem();
+			bi.generateFromUrl(t.external_url, 300, 300);
 			
 			this.main_board.addItem(bi, true);
 		}

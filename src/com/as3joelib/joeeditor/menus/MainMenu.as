@@ -42,11 +42,12 @@ package com.as3joelib.joeeditor.menus
 		{
 			this.addEventListener(PrimaryMenu.INIT_DRAW, onInitDraw);
 			this.addEventListener(PrimaryMenu.INIT_STICKERS, onInitStickers);
+			this.addEventListener(PrimaryMenu.INIT_EXTERNAL_IMAGE, onInitExternalImage);
 			this.addEventListener(PrimaryMenu.INIT_WEBCAM, onInitWebcam);
 			
 			//atento a cuando hagan click en boton de "tomar foto de webcam"
-			//y cambiar al menu de stickers
 			this.addEventListener(WebcamMenu.WEBCAM_READY, onActionReady);
+			//y cambiar al menu de stickers
 			this.addEventListener(DrawMenu.DRAW_READY, onActionReady);
 			
 		}
@@ -69,6 +70,9 @@ package com.as3joelib.joeeditor.menus
 				case JoeEditor.ACTIVITY_STICKERS:
 					this.primary_menu.initAction(PrimaryMenu.INIT_STICKERS);
 					break;
+				case JoeEditor.ACTIVITY_EXTERNAL_IMAGE:
+					this.primary_menu.initAction(PrimaryMenu.INIT_EXTERNAL_IMAGE);
+					break;
 				case JoeEditor.ACTIVITY_WEBCAM:
 					this.primary_menu.initAction(PrimaryMenu.INIT_WEBCAM);
 					break;
@@ -85,6 +89,11 @@ package com.as3joelib.joeeditor.menus
 			this.secondary_menu.showItem(SecondaryMenu.MENU_STICKERS);
 		}
 		
+		private function onInitExternalImage(e:Event):void 
+		{
+			this.secondary_menu.showItem(SecondaryMenu.MENU_EXTERNAL_IMAGE);
+		}
+		
 		private function onInitWebcam(e:Event):void 
 		{
 			this.secondary_menu.showItem(SecondaryMenu.MENU_WEBCAM);
@@ -93,7 +102,7 @@ package com.as3joelib.joeeditor.menus
 		private function dibujar():void
 		{
 			this.addChild(this.primary_menu);
-			this.primary_menu.x = this.stage.stageWidth - primary_menu.width - 90;
+			this.primary_menu.x = this.stage.stageWidth - primary_menu.width - 5;
 			this.primary_menu.y = 10;
 			
 			this.addChild(this.secondary_menu);
